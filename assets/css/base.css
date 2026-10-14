@@ -1,0 +1,110 @@
+/* ==========================================================================
+   base.css — шрифты, reset, типографика, сетка, зерно, режимы доступности.
+   Читает только семантику из tokens.css. Подключать после tokens.css.
+   ========================================================================== */
+
+/* ---------- шрифты: самохостинг, сабсеты cyr + lat, font-display: swap ----------
+   Предзагрузка (в <head> страницы): только geologica-cyrillic-wght-normal.woff2, начертание первого экрана.
+   Cormorant — не предзагружать: появляется ниже первого экрана.
+   Кириллица проверена живьём (д з к ъ я ж щ ё) в Geologica 300/400/450 и Cormorant Italic 400 — _ds/index.html §шрифты. */
+@font-face { font-family: "Geologica"; src: url("../fonts/geologica-cyrillic-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Geologica"; src: url("../fonts/geologica-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0302, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+20BD, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-cyrillic-400-italic.woff2") format("woff2"); font-style: italic; font-weight: 400; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); font-style: italic; font-weight: 400; font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F; }
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: auto; scroll-padding-top: var(--nav-h); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: var(--w-text) var(--t-body) / var(--lh-body) var(--f-sans);
+  letter-spacing: var(--tr-body);
+  font-feature-settings: "tnum" 0;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+h1, h2, h3, h4, p, ul, ol, figure, blockquote, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+mark { background: none; color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--brick); outline-offset: 3px; border-radius: var(--r-chrome); }
+::selection { background: var(--brick-pale); color: var(--ink); }
+
+/* язык и переносы: длинные слова на 360 ломают строку; lang="ru" на <html> обязателен */
+html:lang(ru) :is(p, li, .row__n, .cap__t, .quote, .draft) { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: break-word; }
+:is(h1, h2, h3, .display, .h2, .cat__t, .logo) { hyphens: manual; text-wrap: balance; }
+
+.skip { position: absolute; left: -999px; top: 8px; z-index: 110; background: var(--ink); color: var(--paper); padding: var(--s-2) 14px; border-radius: var(--r-pill); }
+.skip:focus { left: 16px; }
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- типографика: шкала лока ---------- */
+.display { font-weight: var(--w-display); font-size: var(--t-display); line-height: var(--lh-display); letter-spacing: var(--tr-display); font-variation-settings: "wght" 300; }
+.h2      { font-weight: var(--w-display); font-size: var(--t-h2);      line-height: var(--lh-h2);      letter-spacing: var(--tr-h2); }
+.h-cat   { font-weight: var(--w-display); font-size: var(--t-cat);     line-height: var(--lh-cat);     letter-spacing: var(--tr-cat); }
+.quote-t { font: italic 400 var(--t-quote) / var(--lh-quote) var(--f-serif); letter-spacing: var(--tr-quote); font-synthesis: none; }
+.body    { font-size: var(--t-body); }
+.small   { font-size: var(--t-small); letter-spacing: var(--tr-label); color: var(--mute); }
+.tnum    { font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; }
+.mute    { color: var(--mute); }
+.ink-2   { color: var(--ink-2); }
+/* заголовки строчные: регистр не меняем CSS-ом, набираем строчными в разметке */
+
+/* ---------- сетка: 12 / 8 / 4 ---------- */
+.grid {
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gg); padding-inline: var(--gm);
+}
+.container { padding-inline: var(--gm); }
+
+/* оверлей: клавиша G. Показывается только при ?grid или data-dev на <html> (assets/js/dev-grid.js) */
+.gridlay { position: fixed; inset: 0; z-index: var(--z-grid); pointer-events: none; display: none; }
+.gridlay.is-on { display: block; }
+.gridlay .grid { height: 100%; }
+.gridlay i { background: color-mix(in srgb, var(--brick) 9%, transparent); border-inline: 1px solid color-mix(in srgb, var(--brick) 22%, transparent); }
+@media (max-width: 1023px) { .gridlay i:nth-child(n+9) { display: none; } }
+@media (max-width: 767px)  { .gridlay i:nth-child(n+5) { display: none; } }
+
+/* ---------- зерно: статичное SVG-зерно (therow). Не мерцает, не движется ---------- */
+.grain {
+  position: fixed; inset: 0; z-index: var(--z-grain); pointer-events: none; opacity: .11; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .4 0 0 0 1.1 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- проявка блоком (лок): opacity + сдвиг 14–18 px, power2.out ~1 с, шаг 0.12 с ----------
+   Без JS элемент виден. Класс .is-armed ставит JS перед проявкой, .is-in — на проявке. */
+.reveal.is-armed { opacity: 0; transform: translateY(var(--reveal-shift)); }
+.reveal.is-in { opacity: 1; transform: none; transition: opacity var(--dur-reveal) var(--ease-out-cubic), transform var(--dur-reveal) var(--ease-out-cubic); transition-delay: calc(var(--i, 0) * var(--stagger)); }
+
+/* ---------- доступность: три независимых сигнала (apple §14) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+  .reveal.is-armed { opacity: 1; transform: none; }
+  .reveal.is-in { transition: opacity var(--dur-fade) ease; }
+}
+.rm .reveal.is-armed { opacity: 1; transform: none; }   /* .rm — класс, который ставит JS при reduced-motion */
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-nav: var(--paper); --glass-card: var(--paper); --glass-chip: var(--paper); --glass-sheet: var(--paper);
+    --blur-chip: none; --blur-nav: none; --blur-card: none; --blur-sheet: none;
+  }
+}
+@media (prefers-contrast: more) {
+  :root {
+    --glass-nav: var(--paper); --glass-card: var(--paper); --glass-chip: var(--paper); --glass-sheet: var(--paper);
+    --blur-chip: none; --blur-nav: none; --blur-card: none; --blur-sheet: none;
+    --line: var(--line-strong);
+    --mute: var(--ink-2);
+  }
+  .grain { opacity: 0; }
+}

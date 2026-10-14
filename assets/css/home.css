@@ -1,0 +1,339 @@
+/* ==========================================================================
+   home.css — главная «по душам»: раскладка секций и контракт для слоя движения (MOTION-SPEC §6).
+   Знает только семантику tokens.css и классы components.css. Подключать последним.
+   Оглавление: 0 контракт (--gm, linear) · 1 hero · 2 носка · 3 цены · 4 как проходит · 5 до/после · 6 о Марьяне ·
+   7 обучение · 8 как добраться · 9 подвал · 10 шторка записи · 11 без JS / режимы
+   ========================================================================== */
+
+/* ---------- 0. контракт движения ----------
+   --gm читает JS через getComputedStyle: без регистрации он вернул бы строку «max(80px, calc(…))», а не px. */
+@property --gm { syntax: "<length>"; inherits: true; initial-value: 80px; }
+:root {
+  /* пружина ζ1.0 / response 1.1 с, снятая через spring.toCssLinear (MOTION-SPEC §6.2) */
+  --ease-open: linear(0, 0.0399, 0.1217, 0.2309, 0.3356, 0.4437, 0.5413, 0.6202, 0.6933, 0.7544, 0.8011, 0.8426, 0.8738, 0.901, 0.9227, 0.9386, 0.9523, 0.9624, 0.9709, 0.9776, 0.9824, 0.9865, 0.9894, 0.9919, 0.9938, 0.9952, 0.9963, 0.9972, 0.9978, 0.9983, 0.9987, 1);
+  --sec-gap: clamp(40px, 9vh, 96px);
+}
+.sec-title { grid-column: 1 / -1; }
+html { scroll-padding-top: calc(var(--nav-h) + 8px); }
+main > section { position: relative; }
+/* переносы: заглушки и строки прайса не рвём; на широких экранах переносы не нужны */
+html:lang(ru) :is(.stub, .row__n, .how__list p, .cap__t) { hyphens: manual; -webkit-hyphens: manual; }
+@media (min-width: 1024px) { html:lang(ru) :is(p, li, .row__n, .cap__t, .quote, .draft) { hyphens: manual; -webkit-hyphens: manual; } }
+.tnum { font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; }
+
+/* ---------- 1. hero «кадр открывается» ---------- */
+.hero { position: relative; height: 100vh; height: 100svh; }
+.hero__stage { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg); }
+.hero__frame { position: absolute; inset: 0; overflow: hidden;
+  clip-path: inset(17% var(--gm) 53% var(--gm) round var(--r-frame)); }                /* состояние «полоса»: без JS и при reduced-motion стоит так (JS-состояние p=0 совпадает) */
+.hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform-origin: 50% 40%; transform: scale(1.18); background: var(--wash); }
+.hero__a { position: absolute; inset: 0; z-index: 2; padding-inline: var(--gm); display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gg); align-content: end; padding-bottom: 7vh; pointer-events: none; }
+.hero__a > * { pointer-events: auto; }
+.hero__a .display { grid-column: 1 / span 9; }
+.hero__sub { grid-column: 1 / span 6; margin-top: 28px; color: var(--ink-2); font-size: var(--t-body); }
+.hero__cta { grid-column: 10 / span 3; grid-row: 1 / span 2; align-self: end; justify-self: end; display: flex; align-items: center; gap: var(--s-5); }
+.hero__card { position: absolute; z-index: 3; right: var(--gm); bottom: 5vh; width: auto; display: flex; align-items: center; gap: var(--s-4); padding: 8px 8px 8px 20px; border-radius: var(--r-frame); opacity: 0; visibility: hidden; }   /* вид кнопки, углы 8 px, не капсула (G22) */
+.hero__card .card__t { margin: 0; white-space: nowrap; }   /* JS ведёт opacity/visibility по p */
+@media (max-width: 1023px) {
+  .hero__a .display { grid-column: 1 / -1; }
+  .hero__cta { grid-column: 1 / -1; grid-row: auto; justify-self: start; margin-top: 28px; }
+  .hero__sub { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .hero__frame { clip-path: inset(18% var(--gm) 48% var(--gm) round var(--r-frame)); }
+  .hero__a { padding-bottom: calc(5vh + 72px); }
+  .hero__sub { margin-top: 18px; }
+  .hero__cta { margin-top: 14px; }
+  .hero__cta .btn { display: none; }                            /* на 390 действие — плавающая кнопка; «цены» остаётся ссылкой */
+  .hero__card { left: var(--gm); right: var(--gm); bottom: calc(16px + 64px); padding: 14px 20px; }
+  .hero__card .card__t { white-space: normal; }
+}
+/* CSS-вход (только no-preference): единственное, от чего зависит LCP-кадр; fill = backwards (не forwards/both!) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__frame { animation: hero-open 1629ms var(--ease-open) backwards; }
+  .hero__img { animation: hero-img 1629ms var(--ease-open) backwards; }
+  .hero__a > * { animation: rise 1100ms cubic-bezier(.215, .61, .355, 1) backwards; animation-delay: calc(450ms + var(--i, 1) * 120ms); }
+  @keyframes hero-open { from { clip-path: inset(32% var(--gm) 68% var(--gm) round var(--r-frame)); } }
+  @keyframes hero-img { from { transform: scale(1.24); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+  @media (max-width: 767px) { @keyframes hero-open { from { clip-path: inset(33% var(--gm) 67% var(--gm) round var(--r-frame)); } } }
+}
+
+/* ---------- 2. носка ресниц: светлый фон (лок), пять кадров ----------
+   Слева: заголовок, подпись текущего кадра (её слова), кольца. Справа: кадр во весь столбец. */
+.case { background: var(--paper); }
+.case__stage { min-height: 100vh; min-height: 100svh; padding-top: calc(var(--nav-h) + 6vh); padding-bottom: 8vh; align-content: center; row-gap: var(--s-6); }
+.case__text { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 22px; align-self: stretch; padding-block: 2vh; }
+.case__intro { color: var(--ink-2); max-width: 30em; }
+.case__caps { position: relative; margin-top: auto; min-height: 10.5em; }
+.case__text .cap { grid-template-columns: 1fr; row-gap: 10px; }
+.case__text .rings { margin-top: var(--s-5); }
+.case__view { grid-column: 6 / span 7; align-self: center; }
+.case__frame { position: relative; aspect-ratio: 760 / 583; overflow: hidden; background: var(--wash); border-radius: var(--r-frame); }
+.case__zoom { position: absolute; inset: 0; transform-origin: 50% 50%; }
+.cf { position: absolute; inset: 0; }
+.cf img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+.case__frame .marks { inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+.cap__t .stub { font-style: normal; }
+/* JS-режим: кадры в стопке, подписи в одной точке (контракт §6.3) */
+.case-live .cap { position: absolute; inset: 0 0 auto 0; }
+/* планшет и телефон, а также режим без сцены: текстовый столбец раскладывается по сетке секции: заголовок, подпись-вводная, кадр, подписи, кольца */
+@media (max-width: 1023px) { .case__text { display: contents; } }
+html:not(.case-live) .case__text { display: contents; }
+.case__text > .h2 { order: 1; } .case__text > .case__intro { order: 2; } .case__view { order: 3; } .case__text > .case__caps { order: 4; } .case__text > .rings { order: 5; }
+@media (max-width: 1023px) {
+  .case__text > *, .case__view { grid-column: 1 / -1; }
+  .case__text > .h2 { margin-bottom: -8px; }
+  .case__caps { margin-top: 0; min-height: 9.5em; }
+  .case__text .rings { margin-top: 0; }
+}
+/* без сцены (нет JS, reduced-motion, GSAP не загрузился): кадры лентой, подписи списком, кольца скрыты */
+html:not(.case-live) .case__stage { min-height: 0; padding-block: var(--sec-y); }
+html:not(.case-live) .case__text > * , html:not(.case-live) .case__view { grid-column: 1 / -1; }
+html:not(.case-live) .rings { display: none; }
+html:not(.case-live) .case__frame { aspect-ratio: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gg); overflow: visible; background: none; }
+html:not(.case-live) .cf { position: relative; aspect-ratio: 760 / 583; background: var(--wash); }
+html:not(.case-live) .case__frame .marks, html:not(.case-live) .count { display: none; }
+html:not(.case-live) .case__caps { display: grid; gap: var(--s-4); margin-top: 0; min-height: 0; }
+html:not(.case-live) .cap { padding-top: var(--s-3); border-top: 1px solid var(--line); }
+html:not(.case-live) .case__text .cap { grid-template-columns: minmax(0, 2fr) minmax(0, 5fr); }
+@media (max-width: 767px) {
+  .case__stage { padding-top: calc(var(--nav-h) + 20px); padding-bottom: 24px; row-gap: 14px; align-content: start; }
+  .case__caps { min-height: 8.4em; }
+  .count { right: 12px; bottom: 10px; }
+  html:not(.case-live) .case__frame { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html:not(.case-live) .case__text .cap { grid-template-columns: 1fr; row-gap: 6px; }
+}
+
+
+/* ===== G22: кейс компактнее и аккуратнее — кадр в пределах сетки, без нумерации; кольца масштабируются с экраном ===== */
+.case__text { --ring-d: clamp(64px, 4.4vw, 88px); --ring-img: calc(var(--ring-d) - 10px); }
+.case__text .rings button { width: calc(var(--ring-d) + 10px); }
+@media (min-width: 1024px) { .case__view { grid-column: 7 / span 6; } }
+@media (max-width: 1023px) {
+  .case-live .case__stage { height: 100vh; height: 100svh; min-height: 0; align-content: center; row-gap: 14px; padding-bottom: 16px; }
+  .case-live .case__view { align-self: auto; }
+  .case-live .case__frame { width: 100%; max-height: calc(100svh - 420px); }
+  .case-live .case__caps { min-height: 0; height: calc(var(--t-small) * 1.6 + 8px + 3 * var(--t-quote) * 1.15); }
+}
+@media (max-width: 767px) {
+  .case__text { --ring-d: 52px; }
+  .case__text .rings button { width: 64px; }
+  .case-live .case__stage { padding-bottom: 16px; }
+  .case-live .cap__l { display: none; }
+  .case-live .case__caps { height: calc(3 * var(--t-quote) * 1.15); }
+}
+.day[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+html:lang(ru) :is(.quote, .quote p, .cap__t, .about__t p) { hyphens: manual; -webkit-hyphens: manual; }
+.fab { transition: opacity var(--dur-fade), visibility 0s; }
+html.foot-in .fab, html.case-pin .fab { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--dur-fade), visibility 0s linear var(--dur-fade); }
+
+/* ---------- 3. услуги и цены: самая плотная секция ---------- */
+.prices { background: var(--bg); padding: calc(var(--nav-h) + 10vh) 0 var(--sec-y); }
+.prices__title { grid-column: 1 / -1; margin-bottom: var(--sec-gap); }
+.cat { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gg); align-items: center; padding-bottom: var(--sec-gap); }
+.cat__ph { grid-column: 1 / span 5; margin: 0; justify-self: start; width: min(100%, calc(72svh * .8)); aspect-ratio: 4 / 5; background: var(--wash); overflow: hidden; border-radius: var(--r-frame); }   /* статичное фото категории: целиком, по центру списка */
+.cat__ph img { width: 100%; height: 100%; object-fit: cover; }
+.cat__b { grid-column: 7 / span 6; min-width: 0; }
+.cat__b .cat__t ~ .cat__t, .cat__b ul ~ .cat__t { margin-top: var(--sec-gap); }
+.cat--r .cat__ph { grid-column: 8 / span 5; grid-row: 1; justify-self: end; }
+.cat--r .cat__b { grid-column: 1 / span 6; grid-row: 1; }
+.row { text-decoration: none; }
+.prices__note { font-size: var(--t-small); color: var(--mute); letter-spacing: var(--tr-label); }
+@media (max-width: 1023px) { .cat__ph, .cat--r .cat__ph { grid-column: 1 / span 3; } .cat__b, .cat--r .cat__b { grid-column: 4 / span 5; } .cat--r .cat__ph { grid-column: 6 / span 3; } .cat--r .cat__b { grid-column: 1 / span 5; } }
+@media (max-width: 767px) {
+  .prices { padding: calc(var(--nav-h) + 40px) 0 var(--s-9); }
+  .prices__title { margin-bottom: 28px; }
+  .cat, .cat--r { display: block; padding-bottom: 56px; }
+  .cat__ph, .cat--r .cat__ph { width: min(100%, 300px); margin-bottom: 24px; }
+}
+
+/* ---------- 4. как это проходит (каркас) ---------- */
+.how { background: var(--bg); padding: 0 0 var(--sec-y); }
+.how__title { grid-column: 1 / -1; margin-bottom: var(--sec-gap); }
+.how__list { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gg); row-gap: var(--s-6); }
+.how__list li { grid-column: span 3; display: grid; grid-template-columns: auto 1fr; column-gap: var(--s-4); row-gap: var(--s-3); align-content: start; padding-top: var(--s-4); border-top: 1px solid var(--line-ctrl); }
+.how__n { font-size: var(--t-small); letter-spacing: var(--tr-label); color: var(--mute); }
+.how__l { font-size: var(--t-small); letter-spacing: var(--tr-label); color: var(--ink); }
+.how__list p { grid-column: 1 / -1; max-width: 16em; }
+.how__quote { grid-column: 1 / span 7; margin-top: var(--sec-gap); }
+@media (max-width: 1023px) { .how__list li { grid-column: span 4; } .how__quote { grid-column: 1 / -1; } }
+@media (max-width: 767px) { .how__list li { grid-column: 1 / -1; } }
+
+/* ---------- 6. о Марьяне (каркас) ---------- */
+.about { background: var(--bg); padding: var(--sec-y) 0; }
+.about__ph { grid-column: 1 / span 4; display: grid; gap: 14px; align-content: start; }
+.about__frame { background: #fff; padding: 12px; border: 1px solid var(--line); border-radius: var(--r-frame); }
+.about__frame img { border-radius: calc(var(--r-frame) / 2); }
+.about__frame img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 32%; }
+.about__t { grid-column: 6 / span 7; display: grid; gap: var(--s-5); align-content: start; }
+.about__p { max-width: 28em; font-size: var(--t-body); }
+.about__t .quote { margin-top: var(--s-3); }
+.about__t .quote footer { margin-top: 10px; }
+@media (max-width: 1023px) { .about__ph { grid-column: 1 / span 3; } .about__t { grid-column: 4 / span 5; } }
+@media (max-width: 767px) { .about__ph { grid-column: 1 / -1; margin-bottom: var(--s-6); max-width: 300px; } .about__t { grid-column: 1 / -1; } }
+
+/* ---------- 7. обучение: блок-ссылка (каркас) ---------- */
+.learn { background: var(--bg); border-block: 1px solid var(--line); }
+.learn__a { padding-block: var(--sec-y); align-items: end; row-gap: var(--s-5); transition: background-color var(--dur-hover); }
+.learn__t { grid-column: 1 / span 6; }
+.learn__p { grid-column: 7 / span 4; color: var(--ink-2); }
+.learn__go { grid-column: 11 / span 2; justify-self: end; font-size: var(--t-body); border-bottom: 1px solid var(--line-ctrl); padding-bottom: 2px; transition: border-color var(--dur-hover); }
+.learn__a:hover .learn__go { border-bottom-color: var(--ink); }
+.learn__a:focus-visible { outline-offset: -4px; }
+@media (max-width: 1023px) { .learn__t, .learn__p { grid-column: 1 / -1; } .learn__go { grid-column: 1 / -1; justify-self: start; } }
+
+/* ---------- 8. как добраться (каркас) ---------- */
+.route { background: var(--paper); padding: var(--sec-y) 0; }
+.route__t { grid-column: 1 / -1; margin-bottom: var(--sec-gap); }
+.route__a { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: start; }
+.route__addr { font-style: normal; font-weight: var(--w-display); font-size: var(--t-quote); line-height: 1.1; letter-spacing: var(--tr-cat); }
+.route__line { color: var(--ink-2); }
+.route__map { grid-column: 7 / span 6; position: relative; aspect-ratio: 16 / 10; display: grid; place-content: center; justify-items: center; gap: var(--s-4); text-align: center; background: var(--wash); border-radius: var(--r-frame); overflow: hidden; }
+.route__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 1023px) { .route__a { grid-column: 1 / -1; } .route__map { grid-column: 1 / -1; margin-top: var(--s-6); } }
+
+/* ---------- 9. подвал ---------- */
+.foot .grid + .grid { margin-top: var(--sec-gap); }
+.foot__cols { align-items: start; }
+.foot__c { grid-column: span 3; display: grid; gap: var(--s-3); align-content: start; font-size: var(--t-row-d); color: var(--ink-2); }
+.foot__c li { margin-bottom: 6px; }
+.foot__c .link { font-size: var(--t-row-d); }
+.foot__h { font-size: var(--t-small); font-weight: var(--w-text); letter-spacing: var(--tr-label); color: var(--mute); margin: 0; }
+.foot__bot { grid-column: 1 / -1; margin-top: var(--s-6); padding-top: var(--s-4); border-top: 1px solid var(--line); }
+@media (max-width: 1023px) { .foot__c { grid-column: span 4; margin-bottom: var(--s-5); } }
+@media (max-width: 767px) { .foot__c { grid-column: 1 / -1; } .foot { padding-bottom: 120px; } }
+
+/* ---------- 10. шторка записи ----------
+   Корень #zapis — прямой потомок body (контракт §6.4). sheet.js делает его position:fixed; скрим и панель — внутри.
+   Панель: ≤767 — снизу (bottom sheet, запас 48 под отскок ζ0.8); ≥768 — по центру, bottom 12vh. Визуал — DS: стекло, острые углы, кирпич только у «записаться». */
+.sheet__scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; }
+.zapis__panel { position: absolute; left: 0; right: 0; bottom: -48px; padding-bottom: 48px; max-height: calc(var(--sheet-max-h) + 48px); display: flex; flex-direction: column;
+  background: var(--glass-sheet); -webkit-backdrop-filter: var(--blur-sheet); backdrop-filter: var(--blur-sheet);
+  border-top: 1px solid var(--glass-edge); box-shadow: var(--shadow-sheet); color: var(--ink); will-change: transform; }
+.zapis__top { position: relative; }
+.zapis__grab { cursor: grab; min-height: var(--hit); padding-right: calc(var(--hit) + var(--s-4)); }
+.is-grab .zapis__grab { cursor: grabbing; }
+.zapis__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); min-height: 56px; padding: 0 var(--s-4); }
+.zapis__top .sheet__x { position: absolute; right: var(--s-3); top: 6px; margin: 0; }
+.zapis .sheet__grip { display: block; align-self: center; width: 36px; height: 2px; margin: 10px auto 0; background: var(--line-ctrl); }
+.zapis__panel .sheet__bar { padding: 0 var(--s-4); }
+.zapis__body { padding: var(--s-5) var(--s-4) 0; display: block; }
+.zapis__steps { display: grid; position: relative; }
+.zs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); align-content: start; padding-bottom: var(--s-5); min-width: 0; }
+.zs .row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding: 15px 0 14px; }
+.zs .row__d { grid-column: 1; grid-row: 2; font-size: 14px; }
+.zs .row__p { grid-column: 2; grid-row: 1; }
+.zs__foot { position: sticky; bottom: 0; display: grid; gap: var(--s-3); padding: var(--s-4) 0 var(--s-3); margin-top: var(--s-2);
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--paper) 92%, transparent) 22%); }
+.zs .sheet__q:focus { outline: none; }
+.zs .rows .row { text-decoration: none; }
+.zs .row .row__d { color: var(--mute); }
+.zapis .toast { position: fixed; z-index: 5; }
+.zapis .sheet__sum:empty { display: none; }
+.zapis .btn[aria-disabled="true"] { pointer-events: none; }
+@media (min-width: 768px) {
+  .zapis__panel { left: 50%; right: auto; width: var(--sheet-w); margin-left: calc(var(--sheet-w) / -2); bottom: 12vh; padding-bottom: 0; height: min(76vh, 680px); max-height: none; border: 1px solid var(--glass-edge); }   /* G21: окно по центру, одна высота на все шаги, верх не прыгает */
+  .zapis .sheet__grip { display: none; }
+  .zapis__grab { cursor: default; }
+  .zapis__head { padding: 0 var(--s-5); }
+  .zapis__panel .sheet__bar { padding: 0 var(--s-5); }
+  .zapis__body { padding: var(--s-6) var(--s-5) 0; }
+  .zapis__top .sheet__x { top: 10px; right: var(--s-4); }
+}
+@media (max-width: 767px) { .zapis .toast:not(.toast--static) { bottom: auto; top: calc(var(--s-4) + env(safe-area-inset-top, 0px)); } }   /* на телефоне низ занят шторкой */
+.zapis .toast { bottom: var(--s-6); }
+.zapis .toast:not(.is-on) { pointer-events: none; }
+.zapis .draft { cursor: text; }
+
+/* ---------- 11. без JS и сбои ---------- */
+/* без JS #zapis — обычная секция с готовым текстом и ссылками в мессенджеры; шаги выбора скрыты (их строит JS) */
+.zapis:not(.is-sheet) { position: static; background: var(--paper); border-top: 1px solid var(--line); padding: var(--sec-y) var(--gm); }
+.zapis:not(.is-sheet) .zapis__panel { position: static; max-height: none; width: auto; margin: 0; padding: 0; background: none; box-shadow: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.zapis:not(.is-sheet) .sheet__scrim, .zapis:not(.is-sheet) .zapis__top, .zapis:not(.is-sheet) .sheet__bar, .zapis:not(.is-sheet) .sheet__back, .zapis:not(.is-sheet) .toast,
+.zapis:not(.is-sheet) [data-s="service"], .zapis:not(.is-sheet) [data-s="slots"] { display: none; }
+.zapis:not(.is-sheet) .zapis__body { padding: 0; max-width: 520px; }
+.zapis:not(.is-sheet) .zs__foot { position: static; background: none; }
+/* с JS, но шторка ещё не собралась: секцию не показываем (мигание подвала); если модуль не загрузился — показываем (home.js ставит .zapis-fallback) */
+html.js:not(.zapis-fallback) .zapis:not(.is-sheet) { display: none; }
+html:not(.js) .nav { background: var(--glass-nav); -webkit-backdrop-filter: var(--blur-nav); backdrop-filter: var(--blur-nav); }
+@media (prefers-reduced-transparency: reduce) { .zapis__panel { background: var(--paper); } }
+@media (prefers-contrast: more) { .zapis__panel { background: var(--paper); border: 1px solid var(--ink); } }
+@media (prefers-reduced-motion: reduce) {
+  .zapis__panel { will-change: auto; }
+}
+@media print { .nav, .fab, .grain, .zapis { display: none !important; } }
+html:not(.case-live) .case__zoom { display: contents; }
+.zapis__body { min-height: 0; flex: 1 1 auto; overflow-y: auto; }
+
+/* G22: логотип — дуга над «о» как в оригинале (inputs/logo-original.png); перекрывает уголок из components.css */
+.logo__o::before { left: 50%; top: -.13em; width: .66em; height: .34em; border: .09em solid currentColor; border-bottom: 0; border-radius: .66em .66em 0 0; transform: translateX(-50%); box-sizing: border-box; }
+
+/* G22/4б: кейс на десктопе — группа «текст + кольца» и кадр выровнены по центру сцены, кольца целиком в окне */
+@media (min-width: 1024px) {
+  .case-live .case__stage { height: 100vh; height: 100svh; min-height: 0; padding-top: var(--nav-h); padding-bottom: 4vh; align-content: center; }
+  .case-live .case__text { align-self: center; padding-block: 0; gap: 20px; }
+  .case-live .case__caps { margin-top: var(--s-4); min-height: 9.5em; }
+  .case-live .case__text .rings { margin-top: var(--s-4); }
+  .case-live .case__view { align-self: center; }
+}
+.cat__ph--w { aspect-ratio: 1000 / 559; width: min(100%, calc(72svh * 1.789)); }
+/* строки прайса: точка «включено» приклеена к последнему слову; на ≤1023 название на всю ширину, время и цена строкой ниже (≤2 строк у самой длинной услуги) */
+.nw { white-space: nowrap; }
+.row__n { overflow-wrap: normal; }
+.cat--np .cat__b { grid-column: 1 / span 9; }
+@media (max-width: 1599px) {
+  .cat .row, .zs .row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; }
+  .cat .row__n, .zs .row__n { grid-column: 1 / -1; grid-row: 1; }
+  .cat .row__d, .zs .row__d { grid-column: 1; grid-row: 2; font-size: 14px; }
+  .cat .row__p, .zs .row__p { grid-column: 2; grid-row: 2; }
+}
+@media (max-width: 400px) { .cat .row__n, .zs .row__n { font-size: 15px; letter-spacing: -.015em; } }
+.row.is-selected, .row[aria-checked="true"] { border-radius: var(--r-frame); }
+.draft, .zapis .draft { border-radius: var(--r-frame); }
+.zapis__panel { border-radius: var(--r-frame) var(--r-frame) 0 0; }
+@media (min-width: 768px) { .zapis__panel { border-radius: var(--r-frame); } }
+.nav__links a:focus-visible { border-radius: var(--r-frame); }
+/* шторка: на всех ширинах название на всю ширину, время и цена строкой ниже */
+.zs .row__n { grid-column: 1 / -1; grid-row: 1; }
+.zs .row__d { grid-column: 1; grid-row: 2; }
+.zs .row__p { grid-column: 2; grid-row: 2; }
+@media (max-width: 767px) { .cat__ph, .cat--r .cat__ph, .cat__ph--w { margin: 0 0 24px; width: 100%; max-width: 360px; } .cat__ph:not(.cat__ph--w) { max-width: 300px; } }
+
+/* круг 4: фото категории крупнее (5–6 колонок), верх на уровне заголовка; внутри — шторка до/после (радиус 8 px) */
+.cat { align-items: start; }
+.cat .cat__ph { grid-column: 1 / span 6; grid-row: 1; width: min(100%, calc(80svh * .8)); aspect-ratio: auto; background: none; overflow: visible; border-radius: 0; margin: 0; justify-self: start; max-width: none; }
+.cat .cat__b { grid-column: 8 / span 5; grid-row: 1; }
+.cat--r .cat__ph { grid-column: 7 / span 6; justify-self: end; }
+.cat--r .cat__b { grid-column: 1 / span 5; }
+.cat__ph .shutter { border-radius: var(--r-frame); }
+.cat__ph--b .shutter { aspect-ratio: 780 / 975; }
+.cat .cat__ph--l { width: 100%; }
+.cat__ph--l .shutter { aspect-ratio: 5 / 2; }
+.cat__ph .shutter img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 1023px) {
+  .cat, .cat--r { display: block; }
+  .cat .cat__ph, .cat--r .cat__ph { width: min(100%, calc(80svh * .8)); margin: 0 0 24px; }
+  .cat .cat__ph--l { width: 100%; }
+}
+.cat.cat--np .cat__b { grid-column: 1 / span 9; }
+
+/* круг 5: фото бровей по высоте списка: верх — верх первой строки, низ — низ последней; ширина растёт вправо пропорционально 4:5.
+   Размеры считает home.js (--pt, --pw); без JS и на ≤1199 остаётся прежняя раскладка */
+@media (min-width: 1200px) {
+  .cat--fit { grid-template-columns: var(--pw, 5fr) minmax(300px, 560px); column-gap: 64px; justify-content: start; }
+  .cat--fit .cat__ph { grid-column: 1; width: var(--pw, 100%); margin-top: var(--pt, 0px); }
+  .cat--fit .cat__b { grid-column: 2; }
+  .cat--fit .row { padding-block: var(--rp, 22px); }
+}
+.cat--fit .row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; }
+.cat--fit .row__n { grid-column: 1 / -1; grid-row: 1; }
+.cat--fit .row__d { grid-column: 1; grid-row: 2; font-size: 14px; }
+.cat--fit .row__p { grid-column: 2; grid-row: 2; }
+
+/* круг 6: брови — пара A (dikidi work-1) целиком: сверху «до», снизу «после», полоска на стыке; ресницы — фото по центру высоты блока */
+.ba-stack { position: relative; overflow: hidden; aspect-ratio: 780 / 975; border-radius: var(--r-frame); background: var(--wash); }
+.ba-stack img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ba-stack::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--on-photo); transform: translateY(-.5px); }
+.ba-stack .tag--mid { top: calc(50% + 14px); }
+@media (min-width: 1024px) { .cat--r .cat__ph { align-self: center; } }

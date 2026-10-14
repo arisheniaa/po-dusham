@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>По душам: натуральные брови и ресницы, Марьяна Серяпова, Москва</title>
+<meta name="description" content="Коррекция и окрашивание бровей от 3&nbsp;000&nbsp;₽, ламинирование ресниц 5&nbsp;200&nbsp;₽, уход в цене. 1-я Миусская, 22с3. Запись онлайн.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F3EFE9">
+<meta name="api-base" content="/api">
+<meta property="og:site_name" content="по душам">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:type" content="website">
+<meta property="og:title" content="по душам · брови и ресницы на Миусской">
+<meta property="og:description" content="Натуральные брови и ресницы, чай и спокойный разговор. Окна открываю сама, отвечаю в WhatsApp.">
+<meta property="og:image" content="assets/img/og-hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F3EFE9'/%3E%3Cpath d='M9 14l7-6 7 6' fill='none' stroke='%238D3F2B' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='21' r='5' fill='none' stroke='%231E1A17' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/geologica-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/hero-m-1080.jpg" imagesrcset="assets/img/hero-m-720.jpg 720w, assets/img/hero-m-1080.jpg 1080w" imagesizes="100vw" fetchpriority="high" media="(max-width: 767px)">
+<link rel="preload" as="image" href="assets/img/hero-2048.jpg" imagesrcset="assets/img/hero-1280.jpg 1280w, assets/img/hero-2048.jpg 2048w" imagesizes="100vw" fetchpriority="high" media="(min-width: 768px)">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<script>document.documentElement.classList.add('js')</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BeautySalon","name":"по душам","description":"Студия натуральных бровей и ресниц Марьяны Серяповой","founder":{"@type":"Person","name":"Марьяна Серяпова"},"address":{"@type":"PostalAddress","streetAddress":"1-я Миусская, 22с3, 3 этаж, офис 3/3","addressLocality":"Москва","addressCountry":"RU"},"sameAs":["https://www.instagram.com/seryapova.brows","https://t.me/davaiypodusham"]}</script>
+</head>
+<body>
+
+<a class="skip" href="#ceny">к ценам</a>
+
+<!-- шапка: тонкая навигация по краям, логотип по центру (therow); материал вместо линии (apple §12) -->
+<header class="nav" id="nav">
+  <nav class="nav__links" aria-label="разделы">
+    <a href="#ceny">цены</a>
+    <a href="#noska">носка ресниц</a>
+    <a href="obuchenie/">обучение</a>
+  </nav>
+  <a class="logo" href="#top" aria-label="по душам, на главную"><span aria-hidden="true">п<span class="logo__o">о</span> душам</span></a>
+  <a class="btn btn--primary" href="#zapis" data-book>записаться</a>
+</header>
+
+<main id="top">
+
+<!-- ============ 1. HERO: «кадр открывается» (MOTION-SPEC §3.1) ============ -->
+<section class="hero" id="hero" aria-labelledby="hero-title">
+  <div class="hero__stage">
+    <div class="hero__frame" id="heroFrame">
+      <picture>
+        <source media="(max-width: 767px)" srcset="assets/img/hero-m-720.jpg 720w, assets/img/hero-m-1080.jpg 1080w" sizes="100vw" width="1080" height="1080">
+        <img class="hero__img" id="heroImg" src="assets/img/hero-2048.jpg" srcset="assets/img/hero-1280.jpg 1280w, assets/img/hero-2048.jpg 2048w" sizes="100vw" alt="Марьяна смеётся, лицо и брови крупным планом" width="2048" height="1024" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+
+    <div class="hero__a" id="heroA">
+      <h1 class="display" id="hero-title" style="--i:1">приходите<br>по душам</h1>
+      <p class="hero__sub" style="--i:2">натуральные брови и ресницы, чай и спокойный разговор</p>
+      <div class="hero__cta" style="--i:3">
+        <a class="btn btn--primary" href="#zapis" data-book>записаться</a>
+        <a class="link" href="#ceny">цены</a>
+      </div>
+    </div>
+
+    <!-- состояние «кадр открыт»: плашка «хорошее место» вида кнопки, углы слегка скруглены (G22) -->
+    <aside class="card hero__card" id="heroCard" aria-hidden="true">
+      <p class="card__t">хорошее место 2025 и 2026</p>
+      <a class="btn btn--primary" href="#zapis" data-book tabindex="-1">записаться</a>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ 2. О МАРЬЯНЕ: вторая секция (G22) ============ -->
+<section class="about" id="o-maryane" aria-labelledby="about-title">
+  <div class="grid">
+    <figure class="about__ph">
+      <div class="about__frame"><img src="assets/img/maryana-portrait.jpg" alt="Марьяна Серяпова улыбается, в своей студии" width="960" height="1280" loading="lazy"></div>
+      <figcaption class="plaque">Марьяна Серяпова, основатель «по душам»</figcaption>
+    </figure>
+    <div class="about__t">
+      <h2 class="h2" id="about-title">это я, Марьяна</h2>
+      <p class="about__p">делаю натуральные брови и ламинирование ресниц, а также этому учу мастеров. работаю в студии на Миусской, приходите делать процедуры и пить чай.</p>
+      <blockquote class="quote"><p>тотальное расслабление на работе, клиенты тоже это отмечают</p></blockquote>
+      <p><a class="link" href="https://t.me/davaiypodusham" rel="noopener">больше моей жизни в телеграм канале «давай по душам» →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. НОСКА РЕСНИЦ: неделя за неделей (светлый фон, MOTION-SPEC §3.2) ============ -->
+<section class="case" id="noska" aria-labelledby="case-title">
+  <div class="case__stage grid">
+    <div class="case__text">
+      <h2 class="h2" id="case-title">носка ресниц</h2>
+      <p class="case__intro">как выглядит лами ресниц в течение месяца</p>
+      <div class="case__caps" id="caseCaps">
+        <div class="cap"><span class="cap__l">до</span><p class="cap__t">родной изгиб есть, хотелось поярче</p></div>
+        <div class="cap"><span class="cap__l">сразу после</span></div>
+        <div class="cap"><span class="cap__l">неделя</span><p class="cap__t">через неделю ресницы начали обновляться, но всё на месте: Мира спокойно умывается и красит их тушью</p></div>
+        <div class="cap"><span class="cap__l">3 недели</span><p class="cap__t">начинают виднеться светлые корни, но изгиб остаётся таким же ярким</p></div>
+        <div class="cap"><span class="cap__l">месяц с небольшим</span><p class="cap__t">никаких заломов и перекрутов, ресницы отрастают плавно и незаметно</p></div>
+      </div>
+      <ol class="rings" id="rings" aria-label="кадры по неделям">
+        <li><button type="button"><span class="ring"><img src="assets/img/case-1.jpg" alt="" width="54" height="54" loading="lazy"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28"/></svg></span><span class="ring__l">до</span></button></li>
+        <li><button type="button"><span class="ring"><img src="assets/img/case-2.jpg" alt="" width="54" height="54" loading="lazy"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28"/></svg></span><span class="ring__l">сразу после</span></button></li>
+        <li><button type="button"><span class="ring"><img src="assets/img/case-3.jpg" alt="" width="54" height="54" loading="lazy"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28"/></svg></span><span class="ring__l">неделя</span></button></li>
+        <li><button type="button"><span class="ring"><img src="assets/img/case-4.jpg" alt="" width="54" height="54" loading="lazy"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28"/></svg></span><span class="ring__l">3 недели</span></button></li>
+        <li><button type="button"><span class="ring"><img src="assets/img/case-5.jpg" alt="" width="54" height="54" loading="lazy"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28"/></svg></span><span class="ring__l">месяц с небольшим</span></button></li>
+      </ol>
+    </div>
+
+    <div class="case__view">
+      <div class="case__frame" id="caseFrame">
+        <div class="case__zoom">
+        <figure class="cf"><img src="assets/img/case-1.jpg" alt="Глаз Миры до ламинирования ресниц" width="760" height="583" loading="lazy"></figure>
+        <figure class="cf"><img src="assets/img/case-2.jpg" alt="Ресницы Миры сразу после ламинирования" width="760" height="583" loading="lazy"></figure>
+        <figure class="cf"><img src="assets/img/case-3.jpg" alt="Ресницы Миры через неделю после ламинирования" width="760" height="582" loading="lazy"></figure>
+        <figure class="cf"><img src="assets/img/case-4.jpg" alt="Ресницы Миры через 3 недели: корни светлее, изгиб на месте" width="760" height="582" loading="lazy"></figure>
+        <figure class="cf"><img src="assets/img/case-5.jpg" alt="Ресницы Миры через месяц с небольшим, отросли без заломов" width="760" height="582" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. УСЛУГИ И ЦЕНЫ ============ -->
+<section class="prices" id="ceny" aria-labelledby="prices-title">
+  <div class="grid">
+    <h2 class="h2 prices__title" id="prices-title">услуги и цены</h2>
+
+    <div class="cat" data-k="brows">
+        <figure class="cat__ph cat__ph--b">
+          <div class="ba-stack">
+            <img data-photo src="assets/img/ba-brow-a.jpg" srcset="assets/img/ba-brow-a.jpg 780w, assets/img/ba-brow-a-2x.jpg 1248w" sizes="(min-width: 1200px) 820px, (min-width: 768px) 60vw, 300px" alt="Одна и та же бровь: сверху до коррекции, снизу после" width="780" height="975" loading="lazy">
+            <span class="tag tag--l">до</span><span class="tag tag--l tag--mid">после</span>
+          </div>
+        </figure>
+        <div class="cat__b">
+        <h3 class="cat__t">брови</h3>
+        <ul class="rows">
+          <li><a class="row" href="#zapis" data-book data-service="brows-correction"><span class="row__n"><span class="nw">коррекция<i class="dot" role="img" aria-label="включено"></i></span></span><span class="row__d">30&nbsp;мин</span><span class="row__p">3&nbsp;000&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="brows-correction-care"><span class="row__n">коррекция + уход ORGANIC <span class="nw">BROW<i class="dot" role="img" aria-label="включено"></i></span></span><span class="row__d">45&nbsp;мин</span><span class="row__p">3&nbsp;000&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="brows-correction-tint"><span class="row__n">коррекция + <span class="nw">окрашивание<i class="dot" role="img" aria-label="включено"></i></span></span><span class="row__d">1&nbsp;ч</span><span class="row__p">3&nbsp;800&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="brows-correction-tint-care"><span class="row__n">коррекция + окрашивание + уход ORGANIC <span class="nw">BROW<i class="dot" role="img" aria-label="включено"></i></span></span><span class="row__d">1&nbsp;ч</span><span class="row__p">3&nbsp;800&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="brows-tint"><span class="row__n">окрашивание</span><span class="row__d">45&nbsp;мин</span><span class="row__p">3&nbsp;000&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="brows-unsure"><span class="row__n">не знаю, что выбрать</span><span class="row__d">1&nbsp;ч</span><span class="row__p">от&nbsp;3&nbsp;000&nbsp;₽</span></a></li>
+        </ul>
+        <p class="incl"><i class="dot" aria-hidden="true"></i>включено: прореживание и осветление</p>
+        <blockquote class="quote"><p>уход organic brow теперь входит в стоимость процедуры… мне важно не нажиться на клиентах, а помогать</p></blockquote>
+        </div>
+      </div>
+
+      <div class="cat cat--r" data-k="lashes">
+        <figure class="cat__ph cat__ph--l">
+          <div class="shutter" data-shutter tabindex="0" role="slider" aria-label="шторка до и после, ресницы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="до 50 %">
+            <img class="shutter__after" src="assets/img/ba-lash-after.jpg" alt="Ресницы Миры сразу после ламинирования" width="1000" height="400" loading="lazy">
+            <div class="shutter__before"><img src="assets/img/ba-lash-before.jpg" alt="Ресницы Миры до ламинирования" width="1000" height="400" loading="lazy"></div>
+            <div class="shutter__line"><span class="shutter__knob"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></span></div>
+            <span class="tag tag--l">до</span><span class="tag tag--r">сразу после</span>
+          </div>
+        </figure>
+        <div class="cat__b">
+        <h3 class="cat__t">ресницы</h3>
+        <ul class="rows">
+          <li><a class="row" href="#zapis" data-book data-service="lashes-lamination"><span class="row__n"><span class="nw">ламинирование<i class="dot" role="img" aria-label="включено"></i></span></span><span class="row__d">1&nbsp;ч 15&nbsp;мин</span><span class="row__p">5&nbsp;200&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="lashes-lower"><span class="row__n">ламинирование нижних ресниц</span><span class="row__d">15&nbsp;мин</span><span class="row__p">1&nbsp;000&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="lashes-tint"><span class="row__n">окрашивание</span><span class="row__d">15&nbsp;мин</span><span class="row__p">900&nbsp;₽</span></a></li>
+          <li><a class="row" href="#zapis" data-book data-service="lashes-removal"><span class="row__n">снятие наращённых</span><span class="row__d">15&nbsp;мин</span><span class="row__p">1&nbsp;000&nbsp;₽</span></a></li>
+        </ul>
+        <p class="incl"><i class="dot" aria-hidden="true"></i>включено: окрашивание и уход для ресниц</p>
+        </div>
+      </div>
+
+      <div class="cat cat--np" data-k="combo">
+        <div class="cat__b">
+        <h3 class="cat__t">комбо</h3>
+        <ul class="rows">
+          <li><a class="row" href="#zapis" data-book data-service="combo-brows-lashes"><span class="row__n">брови и ресницы за один визит: коррекция, окрашивание, ламинирование</span><span class="row__d">2&nbsp;ч</span><span class="row__p">9&nbsp;000&nbsp;₽</span></a></li>
+        </ul>
+          
+        <h3 class="cat__t">другое</h3>
+        <ul class="rows">
+          <li><a class="row" href="#zapis" data-book data-service="other-wax-lip"><span class="row__n">восковая депиляция над губой</span><span class="row__d">15&nbsp;мин</span><span class="row__p">900&nbsp;₽</span></a></li>
+        </ul>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- ============ 7. ОБУЧЕНИЕ: блок-ссылка (каркас) ============ -->
+<section class="learn" aria-labelledby="learn-title">
+  <a class="learn__a grid" href="obuchenie/">
+    <h2 class="h2 learn__t" id="learn-title">учу мастеров</h2>
+    <p class="learn__p">индивидуальный курс повышения квалификации по ламинированию ресниц. 20&nbsp;000&nbsp;₽</p>
+    <span class="learn__go">про курс <span aria-hidden="true">→</span></span>
+  </a>
+</section>
+
+<!-- ============ 8. КАК ДОБРАТЬСЯ (каркас) ============ -->
+<section class="route" id="adres" aria-labelledby="route-title">
+  <div class="grid">
+    <h2 class="h2 route__t" id="route-title">как добраться</h2>
+    <div class="route__a">
+      <address class="route__addr">1-я Миусская, 22с3, 3&nbsp;этаж, офис 3/3</address>
+      <p class="route__links"><a class="link" href="https://yandex.ru/maps/?text=1-%D1%8F%20%D0%9C%D0%B8%D1%83%D1%81%D1%81%D0%BA%D0%B0%D1%8F%2C%2022%D1%813%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0" rel="noopener" target="_blank">открыть в Яндекс Картах</a></p>
+    </div>
+    <div class="route__map" id="map" data-src="https://yandex.ru/map-widget/v1/?text=1-%D1%8F%20%D0%9C%D0%B8%D1%83%D1%81%D1%81%D0%BA%D0%B0%D1%8F%2C%2022%D1%813%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&z=16">
+      <p class="small">карта загрузится, когда нажмёте</p>
+      <button class="btn btn--ghost" type="button" id="mapBtn">показать карту</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="grid">
+    <a class="logo logo--big" href="#top" aria-label="по душам, на главную"><span aria-hidden="true">п<span class="logo__o">о</span> душам</span></a>
+    <a class="btn btn--primary" href="#zapis" data-book>записаться</a>
+  </div>
+  <div class="grid foot__cols">
+    <div class="foot__c">
+      <h2 class="foot__h">написать мне</h2>
+      <ul>
+        <li><a class="link" href="https://wa.me/79651461738" rel="noopener" target="_blank">WhatsApp</a></li>
+        <li><a class="link" href="https://t.me/maryanasrp" rel="noopener" target="_blank">Telegram</a></li>
+      </ul>
+    </div>
+    <div class="foot__c">
+      <h2 class="foot__h">соцсети</h2>
+      <ul>
+        <li><a class="link" href="https://www.instagram.com/seryapova.brows" rel="noopener" target="_blank">Instagram</a></li>
+        <li><a class="link" href="https://t.me/davaiypodusham" rel="noopener" target="_blank">канал «давай по душам»</a></li>
+      </ul>
+    </div>
+    <div class="foot__c">
+      <h2 class="foot__h">адрес</h2>
+      <p>1-я Миусская, 22с3, 3&nbsp;этаж, офис 3/3</p>
+    </div>
+    <div class="foot__c">
+      <h2 class="foot__h">ещё</h2>
+      <ul><li><a class="link" href="obuchenie/">обучение</a></li></ul>
+    </div>
+    <p class="foot__bot small">© 2026 по душам, Марьяна Серяпова</p>
+  </div>
+</footer>
+
+<!-- плавающая кнопка: только ≤767 -->
+<a class="fab btn btn--primary" href="#zapis" data-book>записаться</a>
+
+<!-- зерно (therow): статичное, без мерцания -->
+<div class="grain" aria-hidden="true"></div>
+<!-- сетка: клавиша G, только при ?grid (dev-сборка) -->
+<div class="gridlay" id="gridlay" aria-hidden="true"><div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+
+<!-- ============ ШТОРКА ЗАПИСИ: прямой потомок body, после подвала (MOTION-SPEC §6.4) ============
+     Без JS это обычная секция «напишите мне» со ссылками в мессенджеры; sheet.js делает её шторкой. -->
+<div class="zapis" id="zapis" role="dialog" aria-modal="true" aria-labelledby="zapis-t">
+  <div class="sheet__scrim" data-sheet-scrim></div>
+  <div class="zapis__panel" data-sheet-panel>
+    <div class="zapis__top">
+      <div class="zapis__grab" data-sheet-grab>
+        <span class="sheet__grip" aria-hidden="true"></span>
+        <div class="zapis__head"><h2 class="sheet__title" id="zapis-t">запись</h2><span class="sheet__step tnum" id="zStep" aria-hidden="true">1 / 3</span></div>
+      </div>
+      <button class="sheet__x" type="button" data-sheet-close aria-label="закрыть запись"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="sheet__bar" id="zBar" aria-hidden="true"><i class="is-done"></i><i></i><i></i></div>
+    <div class="sheet__body zapis__body" data-sheet-body>
+      <div class="zapis__steps">
+
+        <section class="zs is-current" data-step data-s="service" aria-labelledby="zq1">
+          <h2 class="sheet__q" id="zq1" data-step-focus tabindex="-1">что делаем?</h2>
+          <div id="zServices"></div>
+          <div class="zs__foot"><button class="btn btn--primary btn--block" type="button" id="zNext1" data-goto="1" disabled>дальше</button></div>
+        </section>
+
+        <section class="zs" data-step data-s="slots" aria-labelledby="zq2">
+          <button class="sheet__back" type="button" data-goto="0">назад</button>
+          <h2 class="sheet__q" id="zq2" data-step-focus tabindex="-1">когда удобно?</h2>
+          <p class="sheet__sum" id="zSum2"></p>
+          <div id="zSlots" aria-live="polite"></div>
+        </section>
+
+        <section class="zs" data-step data-s="send" aria-labelledby="zq3">
+          <button class="sheet__back" type="button" id="zBack3" data-goto="1">назад</button>
+          <h2 class="sheet__q" id="zq3" data-step-focus tabindex="-1">окна сейчас не загружаются. напишите мне, текст уже готов</h2>
+          <p class="sheet__sum" id="zSum3"></p>
+          <div>
+            <p class="sheet__grp">сообщение</p>
+            <div class="draft" id="zDraft">Здравствуйте, Марьяна. Хочу записаться.</div>
+          </div>
+          <p class="sheet__sum" id="zHint" hidden>откроется WhatsApp с готовым текстом. время закреплю за вами, когда отвечу</p>
+          <div class="zs__foot">
+            <a class="btn btn--primary btn--block" id="zWa" href="https://wa.me/79651461738?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%9C%D0%B0%D1%80%D1%8C%D1%8F%D0%BD%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F." target="_blank" rel="noopener">написать в WhatsApp</a>
+            <a class="btn btn--ghost btn--block" id="zTg" data-tg data-text="Здравствуйте, Марьяна. Хочу записаться." href="https://t.me/maryanasrp" target="_blank" rel="noopener">или в Telegram</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="zToast" role="status" aria-live="polite"></div>
+</div>
+
+<script type="application/json" id="services-data">{"currency":"RUB","priceAsOf":"2026-08-31","categories":[{"id":"brows","title":"брови","included":"прореживание и осветление"},{"id":"lashes","title":"ресницы","included":"окрашивание и уход для ресниц"},{"id":"combo","title":"комбо","included":null},{"id":"other","title":"другое","included":null}],"services":[{"id":"brows-correction","category":"brows","title":"коррекция","fullTitle":"коррекция бровей","price":3000,"priceFrom":false,"durationMin":30,"included":true},{"id":"brows-correction-care","category":"brows","title":"коррекция + уход ORGANIC BROW","fullTitle":"коррекция бровей + уход ORGANIC BROW","price":3000,"priceFrom":false,"durationMin":45,"included":true},{"id":"brows-correction-tint","category":"brows","title":"коррекция + окрашивание","fullTitle":"коррекция и окрашивание бровей","price":3800,"priceFrom":false,"durationMin":60,"included":true},{"id":"brows-correction-tint-care","category":"brows","title":"коррекция + окрашивание + уход ORGANIC BROW","fullTitle":"коррекция и окрашивание бровей + уход ORGANIC BROW","price":3800,"priceFrom":false,"durationMin":60,"included":true},{"id":"brows-tint","category":"brows","title":"окрашивание","fullTitle":"окрашивание бровей","price":3000,"priceFrom":false,"durationMin":45,"included":false},{"id":"brows-unsure","category":"brows","title":"не знаю, что выбрать","fullTitle":"брови: не знаю, что выбрать","price":3000,"priceFrom":true,"durationMin":60,"included":false},{"id":"lashes-lamination","category":"lashes","title":"ламинирование","fullTitle":"ламинирование ресниц","price":5200,"priceFrom":false,"durationMin":75,"included":true},{"id":"lashes-lower","category":"lashes","title":"ламинирование нижних ресниц","fullTitle":"ламинирование нижних ресниц","price":1000,"priceFrom":false,"durationMin":15,"included":false},{"id":"lashes-tint","category":"lashes","title":"окрашивание","fullTitle":"окрашивание ресниц","price":900,"priceFrom":false,"durationMin":15,"included":false},{"id":"lashes-removal","category":"lashes","title":"снятие наращённых","fullTitle":"снятие наращённых ресниц","price":1000,"priceFrom":false,"durationMin":15,"included":false},{"id":"combo-brows-lashes","category":"combo","title":"брови и ресницы за один визит: коррекция, окрашивание, ламинирование","fullTitle":"комбо: брови и ресницы","price":9000,"priceFrom":false,"durationMin":120,"included":false},{"id":"other-wax-lip","category":"other","title":"восковая депиляция над губой","fullTitle":"восковая депиляция над губой","price":900,"priceFrom":false,"durationMin":15,"included":false}]}</script>
+<script src="assets/js/dev-grid.js" defer></script>
+<script type="module" src="assets/js/motion/init.js" defer></script>
+<script type="module" src="assets/js/home.js"></script>
+</body>
+</html>

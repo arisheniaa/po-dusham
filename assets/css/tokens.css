@@ -1,0 +1,173 @@
+/* ==========================================================================
+   tokens.css — «по душам». Источник: .design/DIRECTION-LOCK.md (закон).
+   Стек: ванильный CSS, без Tailwind/CVA/сборщика (отклонение от П9 зафиксировано в локе).
+
+   КАРТА (три уровня, не смешивать)
+   1. ПРИМИТИВЫ  --raw-*   сырые значения. Читает только блок «семантика» ниже. В компонентах — запрещены.
+   2. СЕМАНТИКА  --bg --paper --ink …  роль: поверхность, текст, сигнал, кромка. Компоненты знают только этот уровень.
+   3. КОМПОНЕНТНЫЕ --btn-* --sheet-* --nav-* …  только там, где компоненту нужно своё.
+   Шкалы (--t-*, --tr-*, --lh-*, --s-*, --dur-*, --ease-*, --sp-*) — отдельные оси, не цвет.
+
+   ПРАВИЛО СИГНАЛА: кирпич (--brick) = действие, «включено», активное кольцо, ошибка поля. Не фон секции,
+   не заголовок, не рамка. Больше одной «роли» кирпича на экране не добавляем (см. DS.md §сигнал).
+
+   Значения, которых нет в локе, помечены «[вывод]» — производные, не решения: см. DS.md «open».
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------- 1. ПРИМИТИВЫ */
+  --raw-bone:       #F3EFE9;   /* лок: bg */
+  --raw-ivory:      #FAF8F4;   /* лок: paper, brick-ink */
+  --raw-charcoal:   #1E1A17;   /* лок: ink */
+  --raw-taupe:      #6F675F;   /* лок: mute */
+  --raw-umber:      #4A433D;   /* палитра А: ink-2 */
+  --raw-brick:      #8D3F2B;   /* лок: brick */
+  --raw-brick-deep: #7A3524;   /* hover кирпича; тот же, что в А [вывод из А] */
+  --raw-clay:       #EFE1D9;   /* лок: brick-pale */
+  --raw-butter:     #FBF3DB;   /* лок: stub-bg */
+  --raw-mustard:    #7A5200;   /* лок: stub-ink */
+  --raw-ink-rgb:    30 26 23;  /* для прозрачностей чернил */
+  --raw-bone-rgb:   243 239 233;
+  --raw-ivory-rgb:  250 248 244;
+
+  /* ---------------------------------------------------------------- 2. СЕМАНТИКА: цвет */
+  /* поверхности */
+  --bg:          var(--raw-bone);      /* основной фон страницы */
+  --paper:       var(--raw-ivory);     /* подложки, карточки, шапка-материал, шторка записи */
+  --wash:        rgb(var(--raw-ink-rgb) / .06);   /* [вывод] скелетон, подложка до загрузки фото, disabled */
+  /* текст */
+  --ink:         var(--raw-charcoal);  /* 15.1:1 на bg */
+  --ink-2:       var(--raw-umber);     /* 8.5:1 на bg — предложения вторичного текста */
+  --mute:        var(--raw-taupe);     /* 4.85:1 на bg — только подписи ≥13px, не на brick-pale и не на стекле над фото */
+  /* кромки */
+  --line:        rgb(var(--raw-ink-rgb) / .12);   /* лок: линии прайса, миллиметровка (не несёт смысла) */
+  --line-strong: rgb(var(--raw-ink-rgb) / .40);   /* [вывод] линия при prefers-contrast: more */
+  --line-ctrl:   rgb(var(--raw-ink-rgb) / .50);   /* [вывод] граница ПОЛЯ/кнопки: 3.22:1 на bg (WCAG 1.4.11) */
+  /* сигнал */
+  --brick:       var(--raw-brick);     /* 6.4:1 на bg */
+  --brick-hover: var(--raw-brick-deep);
+  --brick-ink:   var(--raw-ivory);     /* текст на кирпиче, 6.9:1 */
+  --brick-pale:  var(--raw-clay);      /* тихая подложка акцента: выбранная строка, фон «включено» */
+  --danger:      var(--brick);         /* [вывод] ошибка поля = кирпич + значок «!» + текст; отдельного красного в локе нет */
+  /* заглушки (только до запуска) */
+  --stub-bg:     var(--raw-butter);
+  --stub-ink:    var(--raw-mustard);   /* 6.2:1 на stub-bg */
+  /* материал-стекло: ТОЛЬКО на «хроме» (шапка, карточка, ручка шторки, тост, шторка записи); фото чистые */
+  --glass-nav:     rgb(var(--raw-bone-rgb) / .66);
+  --glass-card:    rgb(var(--raw-bone-rgb) / .62);
+  --glass-chip:    rgb(var(--raw-ivory-rgb) / .72);   /* метки «до/после», ручка: на тёмном кадре ink держит 8.2:1 */
+  --glass-sheet:   rgb(var(--raw-ivory-rgb) / .92);
+  --glass-edge:    rgb(255 255 255 / .55);            /* светлая верхняя кромка (apple §12) */
+  --scrim:         rgb(var(--raw-ink-rgb) / .28);     /* затемнение под шторкой записи (apple §12: модальная задача) */
+  --scrim-solid:   rgb(var(--raw-ink-rgb) / .5);     /* [вывод] при reduced-transparency */
+  --on-photo:      var(--raw-ivory);                  /* метки кадра поверх фото */
+
+  /* ---------------------------------------------------------------- 2. СЕМАНТИКА: шрифты */
+  --f-sans:  "Geologica", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --f-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;   /* только её слова: цитата, подписи кейса */
+  --w-display: 300;  --w-text: 400;  --w-medium: 450;  --w-logo: 420;
+
+  /* шкала (лок). clamp живёт от 360 до 1920 без брейкпоинтов. 1440 → значение в комментарии */
+  --t-display: clamp(56px, 8.9vw, 172px);    /* 128 */
+  --t-h2:      clamp(40px, 5.55vw, 104px);   /* 80  */
+  --t-cat:     clamp(32px, 3.9vw, 72px);     /* 56  */
+  --t-quote:   clamp(24px, 2.2vw, 38px);     /* 32  */
+  --t-body:    clamp(16px, 1.25vw, 20px);    /* 18  */
+  --t-small:   13px;
+  --t-btn:     16px;
+  /* шаги вне основной шкалы, взятые из Б дословно (не новые решения) */
+  --t-card:    20px;   /* заголовок карточки «хорошее место» */
+  --t-nav:     14px;   /* ссылки шапки, кнопка шапки */
+  --t-row-d:   15px;   /* время и «включено» в прайсе */
+  --t-label:   11px;   /* подпись кольца */
+  --t-logo:    26px;   /* на ≤767: 22 */
+  --t-logo-xl: clamp(64px, 13vw, 240px);
+
+  /* трекинг и интерлиньяж идут парой, зависят от кегля (apple §15) */
+  --tr-display: -.052em;  --lh-display: .9;
+  --tr-h2:      -.045em;  --lh-h2: .95;
+  --tr-cat:     -.04em;   --lh-cat: 1;
+  --tr-quote:   -.005em;  --lh-quote: 1.15;
+  --tr-body:    -.005em;  --lh-body: 1.45;
+  --tr-card:    -.02em;   --lh-card: 1.2;
+  --tr-row:     -.01em;
+  --tr-logo:    -.03em;   --tr-logo-xl: -.055em;
+  --tr-label:   .06em;    /* мелкие лейблы +0.02…0.06em */
+  --tr-btn:     .005em;
+
+  /* ---------------------------------------------------------------- 2. СЕМАНТИКА: сетка */
+  --cols: 12;
+  --gm: max(80px, calc((100vw - 1760px) / 2));   /* поля: 1440 → 80, 1920 → 80, шире — растут */
+  --gg: 24px;                                    /* гаттер */
+  --nav-h: 64px;
+
+  /* ---------------------------------------------------------------- 2. СЕМАНТИКА: пространство, формы */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px;  --s-4: 16px;  --s-5: 24px;  --s-6: 32px;  --s-7: 48px;  --s-8: 72px;  --s-9: 96px;
+  --sec-y: clamp(72px, 12vh, 160px);             /* вертикаль секции */
+  --r-pill:   999px;   /* капсула: только кнопки (и ручка шторки до/после) */
+  --r-frame:  8px;     /* G22/круг 3: кадры, фото, карточки, карта, шторка — один радиус 8 px (капсулы только у кнопок, кольца круглые) */
+  --r-chrome: var(--r-frame);   /* карточка, тост, шторка записи, плашки */
+  --hit: 44px;         /* минимальная зона касания */
+
+  /* тени (глубина по пресету лендинга — минимум; тень только у плавающего) */
+  --shadow-card:  0 18px 50px -20px rgb(var(--raw-ink-rgb) / .35);
+  --shadow-fab:   0 12px 30px -12px rgb(var(--raw-ink-rgb) / .45);
+  --shadow-knob:  0 8px 24px -10px rgb(var(--raw-ink-rgb) / .35);
+  --shadow-sheet: 0 0 80px -20px rgb(var(--raw-ink-rgb) / .45);
+  --blur-chip: blur(16px) saturate(150%);        /* малые поверхности */
+  --blur-nav:  blur(20px) saturate(160%);
+  --blur-card: blur(24px) saturate(150%);        /* большие — толще (apple §12) */
+  --blur-sheet: blur(32px) saturate(160%);
+
+  /* слои */
+  --z-nav: 50;  --z-fab: 60;  --z-scrim: 72;  --z-sheet: 74;  --z-toast: 76;  --z-grid: 90;  --z-grain: 100;
+
+  /* ---------------------------------------------------------------- 2. СЕМАНТИКА: движение */
+  /* CSS-переходы — только для цвета, отклика на нажатие, проявок. Всё, что трогает рука, ведут пружины (JS). */
+  --dur-press:   100ms;    /* apple §1: scale(.97) на pointer-down */
+  --dur-hover:   200ms;    /* ховер — только цвет */
+  --dur-fade:    300ms;
+  --dur-material:350ms;    /* шапка: прозрачная → материал */
+  --dur-photo:   600ms;    /* проявка фото в прайсе (opacity) */
+  --dur-photo-scale: 1400ms;
+  --dur-reveal:  1000ms;   /* проявка блока: opacity + сдвиг, power2.out */
+  --stagger:     120ms;    /* шаг между элементами проявки */
+  --reveal-shift: 16px;    /* лок: 14–18 px */
+  --press-scale:  .97;     /* кнопки */
+  --press-scale-row: .99;  /* строки прайса */
+  --ease-press:  ease-out;
+  --ease-out-quad:  cubic-bezier(.5, 1, .89, 1);   /* ≈ GSAP power1.out (rhode) */
+  --ease-out-cubic: cubic-bezier(.33, 1, .68, 1);  /* ≈ GSAP power2.out (проявка блоком) */
+
+  /* пружины для motion-engineer: безразмерные числа, читаются JS через getComputedStyle.
+     stiffness = (2π/response)², damping = 4π·ζ/response, масса 1 (apple §4) */
+  --sp-intro-zeta: 1;   --sp-intro-response: 1.1;   /* линия → полоса, вход hero */
+  --sp-hero-zeta:  1;   --sp-hero-response: .55;    /* скролл задаёт цель, кадр ведёт пружина */
+  --sp-case-zeta:  1;   --sp-case-response: .5;
+  --sp-move-zeta:  1;   --sp-move-response: .4;     /* касание/клавиатура шторки до/после */
+  --sp-fling-zeta: .8;  --sp-fling-response: .3;    /* бросок шторки; единственное место с отскоком */
+  --sp-sheet-zeta: .8;  --sp-sheet-response: .3;    /* шторка записи: drawer/sheet по Apple */
+  --fling-decel: .998;  --rubber: .55;  --drag-threshold: 10;
+
+  /* ---------------------------------------------------------------- 3. КОМПОНЕНТНЫЕ */
+  --btn-h: 48px;  --btn-px: 26px;  --btn-h-sm: 40px;  --btn-px-sm: 20px;  --btn-h-fab: 52px;
+  --nav-cta-h: 40px;
+  --ring-d: 64px;  --ring-img: 54px;  --ring-stroke: 1.5;  --ring-len: 176;   /* 2π·28 */
+  --dot-d: 6px;
+  --row-cols: minmax(0, 1fr) 7.5em 6.5em;
+  --knob-d: 52px;
+  --sheet-w: min(520px, 100vw);
+  --sheet-max-h: 88svh;
+  --slot-h: 44px;
+  --ruler-step: 6;      /* px; 390 → 5 */
+  --mark-len: 16;       /* px, длина «уголка» метки кадра */
+}
+
+/* 768: 8 колонок, поля 32, гаттер 20 */
+@media (max-width: 1023px) {
+  :root { --cols: 8; --gm: 32px; --gg: 20px; }
+}
+/* 390: 4 колонки, поля 16, гаттер 12 */
+@media (max-width: 767px) {
+  :root { --cols: 4; --gm: 16px; --gg: 12px; --nav-h: 56px; --nav-cta-h: 36px; --t-logo: 22px; --ring-d: 52px; --ring-img: 44px; --ruler-step: 5; --row-cols: minmax(0, 1fr) auto; }
+}

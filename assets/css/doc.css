@@ -1,0 +1,19 @@
+/* doc.css — текстовые страницы (политика, согласие). Поверх tokens/base/components */
+.doc { padding: 0 var(--margin, 16px) var(--s-9); }
+.doc__top { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); max-width: 760px; margin: 0 auto; padding: var(--s-5) 0 var(--s-7); }
+.doc__logo { font-size: 22px; letter-spacing: -.03em; font-weight: 450; }
+.doc__back { font-size: 15px; }
+.doc main { max-width: 760px; margin: 0 auto; }
+.doc h1 { font-weight: 300; font-size: clamp(36px, 5vw, 64px); line-height: .98; letter-spacing: -.045em; margin: 0 0 var(--s-5); text-wrap: balance; }
+.doc h2 { font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.03em; line-height: 1.15; margin: var(--s-7) 0 var(--s-3); }
+.doc p, .doc li { font-size: 17px; line-height: 1.55; max-width: 64ch; }
+.doc p + p { margin-top: var(--s-3); }
+.doc ul, .doc ol { padding-left: 1.2em; display: grid; gap: 6px; margin: var(--s-3) 0; }
+.doc ul { list-style: disc; } .doc ol { list-style: decimal; }
+.doc .lead { color: var(--ink-2); }
+.doc .meta { font-size: 14px; color: var(--mute); margin-top: var(--s-7); }
+.doc .note { background: var(--stub-bg); color: var(--stub-ink); border-radius: var(--r-frame); padding: var(--s-4) var(--s-5); font-size: 15px; line-height: 1.5; margin: 0 0 var(--s-6); max-width: none; }
+.doc .stub { font-size: .82em; vertical-align: .05em; }
+.doc dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 20px; margin: var(--s-3) 0; font-size: 17px; }
+.doc dt { color: var(--mute); }
+@media (max-width: 560px) { .doc dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .doc dd { margin-bottom: 10px; } }

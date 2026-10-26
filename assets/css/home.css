@@ -337,3 +337,31 @@ html:not(.case-live) .case__zoom { display: contents; }
 .ba-stack::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--on-photo); transform: translateY(-.5px); }
 .ba-stack .tag--mid { top: calc(50% + 14px); }
 @media (min-width: 1024px) { .cat--r .cat__ph { align-self: center; } }
+
+/* G28: демо-переключатель режима записи и форма автоброни */
+.zmode { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; margin: 0 0 var(--s-4); padding: 6px; border: 1px dashed var(--line-ctrl); border-radius: var(--r-frame); }
+.zmode[hidden] { display: none; }
+.zmode__l { font-size: var(--t-small); letter-spacing: .04em; color: var(--mute); padding: 0 6px; }
+.zmode__b { min-height: 36px; padding: 0 14px; border-radius: var(--r-pill); font-size: 14px; color: var(--ink-2); border: 1px solid transparent; transition: background-color var(--dur-hover), color var(--dur-hover); }
+.zmode__b:hover { color: var(--ink); }
+.zmode__b[aria-pressed="true"] { background: var(--brick-pale); color: var(--ink); border-color: var(--line); }
+.zmode__b:focus-visible { outline: 2px solid var(--brick); outline-offset: 2px; }
+.zs__mode { display: grid; gap: var(--s-5); min-width: 0; }
+.zs__mode[hidden] { display: none; }
+.zf { gap: var(--s-4); }
+.zf__f { display: grid; gap: 6px; }
+.zf__l { font-size: 14px; color: var(--ink-2); }
+.zf__i { width: 100%; min-height: 52px; padding: 0 16px; background: var(--paper); border: 1px solid var(--line-ctrl); border-radius: var(--r-frame); font-size: 17px; transition: border-color var(--dur-hover); }
+.zf__i:hover { border-color: var(--ink-2); }
+.zf__i:focus-visible { outline: 2px solid var(--brick); outline-offset: 1px; border-color: var(--ink); }
+.zf__i[aria-invalid="true"] { border-color: var(--danger); }
+.zf__i::placeholder { color: var(--mute); opacity: 1; }
+.zf__e { font-size: 14px; color: var(--danger); }
+.zf__e[hidden] { display: none; }
+.zf__c { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15px; line-height: 1.45; color: var(--ink-2); cursor: pointer; }
+.zf__c input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--brick); cursor: pointer; }
+.zf__c input[aria-invalid="true"] { outline: 2px solid var(--danger); outline-offset: 2px; }
+.zf__c .link { font-size: inherit; }
+.zf__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.zd__t { font-size: var(--t-body); line-height: 1.45; max-width: 36ch; }
+.foot__bot .link { font-size: inherit; }

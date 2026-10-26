@@ -8,6 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F3EFE9">
 <meta name="api-base" content="/api">
+<meta name="booking-mode" content="messenger">
 <meta property="og:site_name" content="по душам">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:type" content="website">
@@ -241,7 +242,7 @@
       <h2 class="foot__h">ещё</h2>
       <ul><li><a class="link" href="obuchenie/">обучение</a></li></ul>
     </div>
-    <p class="foot__bot small">© 2026 по душам, Марьяна Серяпова</p>
+    <p class="foot__bot small">© 2026 по душам, Марьяна Серяпова<span data-auto-only hidden> · <a class="link" href="politika/">политика обработки персональных данных</a></span></p>
   </div>
 </footer>
 
@@ -267,6 +268,11 @@
     </div>
     <div class="sheet__bar" id="zBar" aria-hidden="true"><i class="is-done"></i><i></i><i></i></div>
     <div class="sheet__body zapis__body" data-sheet-body>
+      <div class="zmode" id="zMode" role="group" aria-label="демо: как работает запись" hidden>
+        <span class="zmode__l">демо</span>
+        <button type="button" class="zmode__b" data-mode="messenger" aria-pressed="true">через WhatsApp</button>
+        <button type="button" class="zmode__b" data-mode="auto" aria-pressed="false">автобронь</button>
+      </div>
       <div class="zapis__steps">
 
         <section class="zs is-current" data-step data-s="service" aria-labelledby="zq1">
@@ -286,14 +292,44 @@
           <button class="sheet__back" type="button" id="zBack3" data-goto="1">назад</button>
           <h2 class="sheet__q" id="zq3" data-step-focus tabindex="-1">окна сейчас не загружаются. напишите мне, текст уже готов</h2>
           <p class="sheet__sum" id="zSum3"></p>
-          <div>
-            <p class="sheet__grp">сообщение</p>
-            <div class="draft" id="zDraft">Здравствуйте, Марьяна. Хочу записаться.</div>
+
+          <!-- режим «через мессенджер» (G20): готовое сообщение, сайт ничего не собирает -->
+          <div class="zs__mode" id="zMsg">
+            <div>
+              <p class="sheet__grp">сообщение</p>
+              <div class="draft" id="zDraft">Здравствуйте, Марьяна. Хочу записаться.</div>
+            </div>
+            <p class="sheet__sum" id="zHint" hidden>откроется WhatsApp с готовым текстом. время закреплю за вами, когда отвечу</p>
+            <div class="zs__foot">
+              <a class="btn btn--primary btn--block" id="zWa" href="https://wa.me/79651461738?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%9C%D0%B0%D1%80%D1%8C%D1%8F%D0%BD%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F." target="_blank" rel="noopener">написать в WhatsApp</a>
+              <a class="btn btn--ghost btn--block" id="zTg" data-tg data-text="Здравствуйте, Марьяна. Хочу записаться." href="https://t.me/maryanasrp" target="_blank" rel="noopener">или в Telegram</a>
+            </div>
           </div>
-          <p class="sheet__sum" id="zHint" hidden>откроется WhatsApp с готовым текстом. время закреплю за вами, когда отвечу</p>
-          <div class="zs__foot">
-            <a class="btn btn--primary btn--block" id="zWa" href="https://wa.me/79651461738?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%9C%D0%B0%D1%80%D1%8C%D1%8F%D0%BD%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F." target="_blank" rel="noopener">написать в WhatsApp</a>
-            <a class="btn btn--ghost btn--block" id="zTg" data-tg data-text="Здравствуйте, Марьяна. Хочу записаться." href="https://t.me/maryanasrp" target="_blank" rel="noopener">или в Telegram</a>
+
+          <!-- режим «автобронь»: имя, телефон, отдельное согласие (152-ФЗ, ст. 9) -->
+          <form class="zs__mode zf" id="zForm" hidden novalidate>
+            <label class="zf__f"><span class="zf__l">как к вам обращаться</span>
+              <input class="zf__i" name="name" id="zName" autocomplete="given-name" maxlength="60" required aria-describedby="zNameErr">
+              <span class="zf__e" id="zNameErr" hidden>напишите имя</span></label>
+            <label class="zf__f"><span class="zf__l">телефон</span>
+              <input class="zf__i" name="phone" id="zPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00" maxlength="20" required aria-describedby="zPhoneErr">
+              <span class="zf__e" id="zPhoneErr" hidden>проверьте номер: нужен российский, 11 цифр</span></label>
+            <label class="zf__hp" aria-hidden="true">сайт <input name="website" tabindex="-1" autocomplete="off"></label>
+            <label class="zf__c"><input type="checkbox" name="consent" id="zConsent" required aria-describedby="zConsentErr">
+              <span>даю <a class="link" href="soglasie/" target="_blank" rel="noopener">согласие на обработку персональных данных</a> для записи. как я их храню — в <a class="link" href="politika/" target="_blank" rel="noopener">политике</a></span></label>
+            <span class="zf__e" id="zConsentErr" hidden>без согласия записать онлайн не получится. можно написать мне в WhatsApp</span>
+            <div class="zs__foot">
+              <button class="btn btn--primary btn--block" type="submit" id="zSubmit">записаться</button>
+            </div>
+          </form>
+
+          <!-- автобронь: готово -->
+          <div class="zs__mode zd" id="zDone" hidden>
+            <p class="zd__t">жду вас по адресу 1-я Миусская, 22с3, 3&nbsp;этаж, офис 3/3. если планы поменяются, напишите мне</p>
+            <div class="zs__foot">
+              <a class="btn btn--ghost btn--block" id="zDoneWa" href="https://wa.me/79651461738" target="_blank" rel="noopener">написать в WhatsApp</a>
+              <button class="btn btn--primary btn--block" type="button" data-sheet-close>готово</button>
+            </div>
           </div>
         </section>
 
